@@ -1,16 +1,17 @@
 # ToDoListApp
 
-A new Flutter project.
+ToDoListApp is a Flutter application designed to help manage your tasks efficiently. This project is a great starting point for those new to Flutter development.
+
+## Features
+
+- Create and delete tasks
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter SDK
+- Dart SDK
+- An IDE like VSCode or Android Studio
