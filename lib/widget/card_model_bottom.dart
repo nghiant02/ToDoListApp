@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ModelBottom extends StatelessWidget {
-  ModelBottom({super.key, required this.addTask});
+  final void Function(String) addTask;
+  final TextEditingController _textEditingController = TextEditingController();
 
-  final Function(String) addTask;
-
-  TextEditingController textEditingController = TextEditingController();
-
-  void _handleOnClick(BuildContext context) {
-    final text = textEditingController.text;
-    if (text.isNotEmpty) {
-      addTask(text);
-      textEditingController.clear();
-
-      Navigator.pop(context);
-    }
-  }
+  ModelBottom({
+    super.key,
+    required this.addTask,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +16,19 @@ class ModelBottom extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              controller: textEditingController,
+              controller: _textEditingController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Your Task',
               ),
+              onSubmitted: (_) => _handleOnClick(context),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              height: 50,
               child: ElevatedButton(
                 onPressed: () => _handleOnClick(context),
                 style: ElevatedButton.styleFrom(
@@ -46,15 +37,22 @@ class ModelBottom extends StatelessWidget {
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ),
-                child: const Text(
-                  'Add Task',
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: const Text('Add Task',
+                    style: TextStyle(color: Colors.white)),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _handleOnClick(BuildContext context) {
+    final text = _textEditingController.text;
+    if (text.isNotEmpty) {
+      addTask(text);
+      _textEditingController.clear();
+      Navigator.of(context).pop();
+    }
   }
 }

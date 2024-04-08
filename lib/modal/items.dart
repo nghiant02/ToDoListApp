@@ -1,6 +1,6 @@
 class DataItems {
-  final String id;
-  final String name;
+  String id;
+  String name;
 
   DataItems({required this.id, required this.name});
 }
