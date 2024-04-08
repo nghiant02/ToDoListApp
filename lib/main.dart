@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
-
-import 'widget/card_body_widget.dart';
+import 'package:my_project/modal/items.dart';
+import 'package:my_project/widget/card_body_widget.dart';
+import 'package:my_project/widget/card_model_bottom.dart';
 
 void main(List<String> args) {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: MyApp(),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final List<DataItems> items = [];
+
+  void _handleAddTask(String name) {
+    final newItem = DataItems(id: DateTime.now().toString(), name: name);
+    setState(() {
+      items.add(newItem);
+    });
+    print(newItem);
+  }
+
+  void _handleDeleteTaks(String id) {
+    setState(() {
+      items.removeWhere((element) => element.id == id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +46,15 @@ class MyApp extends StatelessWidget {
               fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
-          children: [
-            CardBody(),
-          ],
+          children: items
+              .map((item) => CardBody(
+                    item: item,
+                    handleDelete: _handleDeleteTaks,
+                  ))
+              .toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -42,43 +67,7 @@ class MyApp extends StatelessWidget {
             isScrollControlled: true,
             context: context,
             builder: (BuildContext context) {
-              return Padding(
-                padding: MediaQuery.of(context).viewInsets,
-                child: SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    children: [
-                      const TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Your Task',
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                          ),
-                          child: const Text(
-                            'Add Task',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return ModelBottom(addTask: _handleAddTask);
             },
           );
         },
